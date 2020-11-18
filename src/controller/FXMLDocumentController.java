@@ -70,6 +70,8 @@ public class FXMLDocumentController implements Initializable {
         
         // save this student to databse by calling Create operation        
         create(like);
+        
+        //test
 
     }
 
