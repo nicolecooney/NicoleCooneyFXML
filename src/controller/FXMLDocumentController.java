@@ -14,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -41,6 +44,34 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Button buttonDelete;
+    
+    @FXML
+    private Button buttonReadByNameID;
+    
+    @FXML
+    private Button search;
+
+    @FXML
+    private Button buttonReadByNameLikeID;
+
+    @FXML
+    private TableView<?> likeTable;
+
+    @FXML
+    private TableColumn<Likemodel, Integer> ID;
+
+    @FXML
+    private TableColumn<Likemodel, String> likeName;
+
+    @FXML
+    private TableColumn<Likemodel, Boolean> likePost;
+
+    @FXML
+    private TableColumn<Likemodel, Integer> likeID;
+
+    @FXML
+    private TextField likeField;
+
 
     @FXML
     void createLike(ActionEvent event) {
@@ -134,6 +165,18 @@ public class FXMLDocumentController implements Initializable {
         // create a student instance      
         List<Likemodel> likes =  readByNameLikeID(name, id);
     
+    }
+    @FXML
+    void searchLike(ActionEvent event) {
+     System.out.println("Clicked!");
+        label.setText("Clicked!");
+        
+        Query query = manager.createNamedQuery("Likemodel.findAll");
+        List<Likemodel> data = query.getResultList();
+        
+        for (Likemodel s : data) {            
+            System.out.println(s.getId() + " " + s.getName()+ " " + s.getLikepost() + " " + s.getLikeid());   
+        }   
     }
 
 //    @FXML
