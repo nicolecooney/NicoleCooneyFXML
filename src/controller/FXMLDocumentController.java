@@ -5,18 +5,29 @@
  */
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -55,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
     private Button buttonReadByNameLikeID;
 
     @FXML
-    private TableView<?> likeTable;
+    private TableView<Likemodel> likeTable;
 
     @FXML
     private TableColumn<Likemodel, Integer> ID;
@@ -72,6 +83,118 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField likeField;
 
+    //quiz 4 begin
+    
+   private ObservableList<Likemodel> likeData;
+
+    // add the proper data to the observable list to be rendered in the table
+    public void setTableData(List<Likemodel> likeList) {
+
+        // initialize the studentData variable
+        likeData = FXCollections.observableArrayList();
+
+        // add the student objects to an observable list object for use with the GUI table
+        likeData.forEach(l -> {
+            likeData.add(l);
+        });
+
+        // set the the table items to the data in studentData; refresh the table
+        likeTable.setItems(likeData);
+        likeTable.refresh();
+    }
+
+    @FXML
+    void searchByNameAction(ActionEvent event) {
+        System.out.println("clicked");
+
+        // getting the name from input box        
+        String name = likeField.getText();
+
+        // calling a db read operaiton, readByName
+        List<Likemodel> likes = readByName(name);
+
+        if (likes == null || likes.isEmpty()) {
+
+            // show an alert to inform user 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog Box");// line 2
+            alert.setHeaderText("This is header section to write heading");// line 3
+            alert.setContentText("No like");// line 4
+            alert.showAndWait(); // line 5
+        } else {
+
+            // setting table data
+            setTableData(likes);
+            System.out.println(likes);
+        }
+
+    }
+        @FXML
+    void actionShowDetails(ActionEvent event) throws IOException {
+        System.out.println("clicked");
+
+        
+        // pass currently selected model
+       Likemodel selectedLike = likeTable.getSelectionModel().getSelectedItem();
+        
+        // fxml loader
+       FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailModelView.fxml"));
+
+        // load the ui elements
+        Parent detailedModelView = loader.load();
+
+        // load the scene
+        Scene tableViewScene = new Scene(detailedModelView);
+
+        //access the detailedControlled and call a method
+        detail detailedControlled = loader.getController();
+
+
+       detailedControlled.initData(selectedLike);
+
+        // create a new state
+        Stage stage = new Stage();
+        stage.setScene(tableViewScene);
+        stage.show();
+
+    }
+
+    @FXML
+    void actionShowDetailsInPlace(ActionEvent event) throws IOException {
+        System.out.println("clicked");
+
+        
+                // pass currently selected model
+        Likemodel selectedLikemodel = likeTable.getSelectionModel().getSelectedItem();
+
+        
+        // fxml loader
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailModelView.fxml"));
+
+        // load the ui elements
+        Parent detailedModelView = loader.load();
+
+        // load the scene
+        Scene tableViewScene = new Scene(detailedModelView);
+
+        //access the detailedControlled and call a method
+        detail detailedControlled = loader.getController();
+
+
+        detailedControlled.initData(selectedLikemodel);
+
+        // pass current scene to return
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        //detailedControlled.setPreviousScene(currentScene);
+
+        //This line gets the Stage information
+        Stage stage = (Stage) currentScene.getWindow();
+
+        stage.setScene(tableViewScene);
+        stage.show();
+    }
+    
+    //quiz 4 end
 
     @FXML
     void createLike(ActionEvent event) {
@@ -130,6 +253,19 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(l.toString());
 
     }
+        @FXML
+        void readByName(ActionEvent event) {
+        Scanner input = new Scanner(System.in);
+
+        // read input from command line
+        System.out.println("Enter Name:");
+        String name = input.next();
+
+        List<Likemodel> s = readByName(name);
+        System.out.println(s.toString());
+
+    }
+        
      @FXML
     void readByNameLikeID(ActionEvent event) {
         // name and cpga
@@ -239,6 +375,14 @@ public class FXMLDocumentController implements Initializable {
         //database reference: "IntroJavaFXPU"
         manager = (EntityManager) Persistence.createEntityManagerFactory("NicoleCooneyFXMLPU").createEntityManager();
         
+        ID.setCellValueFactory(new PropertyValueFactory<>("Id"));
+        likeName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        likePost.setCellValueFactory(new PropertyValueFactory<>("Likepost"));
+        likeID.setCellValueFactory(new PropertyValueFactory<>("Likeid"));
+
+        //eanble row selection
+        // (SelectionMode.MULTIPLE);
+        likeTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
     } 
      /*
@@ -295,7 +439,20 @@ public class FXMLDocumentController implements Initializable {
         return like;
     }  
     
-   
+        public List<Likemodel> readByName(String name) {
+        Query query = manager.createNamedQuery("Likemodel.findByName");
+
+        // setting query parameter
+        query.setParameter("name", name);
+
+        // execute query
+        List<Likemodel> likes = query.getResultList();
+        for (Likemodel like : likes) {
+        System.out.println(like.getId() + " " + like.getName() + like.getLikepost() +" "+ like.getLikeid());
+        }
+
+        return likes;
+    }
     public List<Likemodel> readByNameLikeID(String name, double likeId){
         Query query = manager.createNamedQuery("Likemodel.findByNameAndlikeId");
         
