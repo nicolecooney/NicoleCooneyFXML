@@ -186,70 +186,41 @@ public class FXMLDocumentController implements Initializable {
 
     }
     
-//        @FXML
-//    void actionShowDetails(ActionEvent event) throws IOException {
-//        System.out.println("clicked");
-//
-//        
-//        // pass currently selected model
-//       Likemodel selectedLike = likeTable.getSelectionModel().getSelectedItem();
-//        
-//        // fxml loader
-//       FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailModelView.fxml"));
-//
-//        // load the ui elements
-//        Parent detailedModelView = loader.load();
-//
-//        // load the scene
-//        Scene tableViewScene = new Scene(detailedModelView);
-//
-//        //access the detailedControlled and call a method
-//        detail detailedControlled = loader.getController();
-//
-//
-//       detailedControlled.initData(selectedLike);
-//
-//        // create a new state
-//        Stage stage = new Stage();
-//        stage.setScene(tableViewScene);
-//        stage.show();
-//
-//    }
-//
-//    @FXML
-//    void actionShowDetailsInPlace(ActionEvent event) throws IOException {
-//        System.out.println("clicked");
-//
-//        
-//                // pass currently selected model
-//        Likemodel selectedLikemodel = likeTable.getSelectionModel().getSelectedItem();
-//
-//        
-//        // fxml loader
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailModelView.fxml"));
-//
-//        // load the ui elements
-//        Parent detailedModelView = loader.load();
-//
-//        // load the scene
-//        Scene tableViewScene = new Scene(detailedModelView);
-//
-//        //access the detailedControlled and call a method
-//        detail detailedControlled = loader.getController();
-//
-//
-//        detailedControlled.initData(selectedLikemodel);
-//
-//        // pass current scene to return
-//        Scene currentScene = ((Node) event.getSource()).getScene();
-//        //detailedControlled.setPreviousScene(currentScene);
-//
-//        //This line gets the Stage information
-//        Stage stage = (Stage) currentScene.getWindow();
-//
-//        stage.setScene(tableViewScene);
-//        stage.show();
-//    }
+
+    @FXML
+    void actionShowDetailsInPlace(ActionEvent event) throws IOException {
+        System.out.println("clicked");
+
+        
+                // pass currently selected model
+        Likemodel selectedLikemodel = likeTable.getSelectionModel().getSelectedItem();
+
+        
+        // fxml loader
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailedModelView.fxml"));
+
+        // load the ui elements
+        Parent DetailedModelView = loader.load();
+
+        // load the scene
+        Scene tableViewScene = new Scene(DetailedModelView);
+
+        //access the detailedControlled and call a method
+        DetailedModelViewController detailedControlled = loader.getController();
+
+
+        detailedControlled.initData(selectedLikemodel);
+
+        // pass current scene to return
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        detailedControlled.setPreviousScene(currentScene);
+
+        //This line gets the Stage information
+        Stage stage = (Stage) currentScene.getWindow();
+
+        stage.setScene(tableViewScene);
+        stage.show();
+    }
     
     //quiz 4 end
 

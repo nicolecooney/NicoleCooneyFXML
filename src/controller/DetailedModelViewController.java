@@ -31,8 +31,7 @@ public class DetailedModelViewController {
 //
     @FXML // fx:id="image"
     private ImageView image; // Value injected by FXMLLoader
-//
-//    // going back to previous scene    
+  
     
     @FXML
     private Button backButton;
@@ -49,18 +48,7 @@ public class DetailedModelViewController {
     @FXML
     private Label LikeID;
 
-    
-
-
-    Likemodel selectedModel;
-    Scene previousScene;
-
-    public void setPreviousScene(Scene scene) {
-        previousScene = scene;
-        backButton.setDisable(false);
-
-    }
-        @FXML
+    @FXML
     void goBack(ActionEvent event) {
         // option 1: get current stage -- from event
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -72,7 +60,18 @@ public class DetailedModelViewController {
             stage.setScene(previousScene);
         }
 
+    } 
+
+
+    Likemodel selectedModel;
+    Scene previousScene;
+
+    public void setPreviousScene(Scene scene) {
+        previousScene = scene;
+        backButton.setDisable(false);
+
     }
+
 
     public void initData(Likemodel model) {
         selectedModel = model;
