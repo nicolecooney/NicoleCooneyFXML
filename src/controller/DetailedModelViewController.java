@@ -22,27 +22,19 @@ import model.Likemodel;
 
 public class DetailedModelViewController {
 
-//    @FXML // ResourceBundle that was given to the FXMLLoader
-//    private ResourceBundle resources;
-//
-//    @FXML // URL location of the FXML file that was given to the FXMLLoader
-//    private URL location;
-//
-//    @FXML // fx:id="backButton"
-//    private Button backButton; // Value injected by FXMLLoader
-//
-//    @FXML // fx:id="labelID"
-//    private Label labelId; // Value injected by FXMLLoader
-//
-//    @FXML // fx:id="labelValue"
-//    private Label labelValue; // Value injected by FXMLLoader
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
 //
     @FXML // fx:id="image"
     private ImageView image; // Value injected by FXMLLoader
 //
 //    // going back to previous scene    
     
-       @FXML
+    @FXML
     private Button backButton;
 
     @FXML
@@ -91,7 +83,7 @@ public class DetailedModelViewController {
 
         try {
             // path points to /resource/images/
-            String imagename = "/resource.images/" + model.getName() + ".png";
+            String imagename = "/resource/images/" + model.getName() + ".png";
             Image profile = new Image(getClass().getResourceAsStream(imagename));
             image.setImage(profile);
 
@@ -110,6 +102,7 @@ public class DetailedModelViewController {
         assert Name!= null : "fx:id=\"labelValue\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
         assert LikePost != null : "fx:id=\"image\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
         assert LikeID != null : "fx:id=\"image\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
+        assert image != null : "fx:id=\"image\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
         backButton.setDisable(true);
 
     }
