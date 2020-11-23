@@ -1,0 +1,2 @@
+CONNECT 'jdbc:derby://localhost:1527/gp9_db;create=true'
+>

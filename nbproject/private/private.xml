@@ -5,7 +5,9 @@
         <group>
             <file>file:/C:/Users/nicole/Documents/NetBeansProjects/NicoleCooneyFXML/src/controller/FXMLDocumentController.java</file>
             <file>file:/C:/Users/nicole/Documents/NetBeansProjects/NicoleCooneyFXML/src/view/FXMLDocument.fxml</file>
+            <file>file:/C:/Users/nicole/Documents/NetBeansProjects/NicoleCooneyFXML/src/controller/DetailModelController.java</file>
             <file>file:/C:/Users/nicole/Documents/NetBeansProjects/NicoleCooneyFXML/src/model/Likemodel.java</file>
+            <file>file:/C:/Users/nicole/Documents/NetBeansProjects/NicoleCooneyFXML/src/view/DetailedModelView.fxml</file>
         </group>
     </open-files>
 </project-private>

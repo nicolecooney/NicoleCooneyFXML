@@ -156,6 +156,36 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
+        @FXML
+    void showDetails(ActionEvent event) throws IOException{
+        System.out.println("clicked");
+
+        
+        // pass currently selected model
+        Likemodel selectedLike = likeTable.getSelectionModel().getSelectedItem();
+        
+        // fxml loader
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DetailedModelView.fxml"));
+
+        // load the ui elements
+        Parent DetailedModelView = loader.load();
+
+        // load the scene
+        Scene tableViewScene = new Scene(DetailedModelView);
+
+        //access the detailedControlled and call a method
+        DetailedModelViewController detailedControlled = loader.getController();
+
+
+        detailedControlled.initData(selectedLike);
+
+        // create a new state
+        Stage stage = new Stage();
+        stage.setScene(tableViewScene);
+        stage.show();
+
+    }
+    
 //        @FXML
 //    void actionShowDetails(ActionEvent event) throws IOException {
 //        System.out.println("clicked");
@@ -484,7 +514,7 @@ public class FXMLDocumentController implements Initializable {
         Query query = manager.createNamedQuery("Likemodel.findByName");
 
         // setting query parameter
-        query.setParameter("xyz", name);
+        query.setParameter("name", name);
 
         // execute query
         List<Likemodel> likes = query.getResultList();
@@ -575,3 +605,6 @@ public class FXMLDocumentController implements Initializable {
     }
     
 }
+
+
+

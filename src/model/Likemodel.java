@@ -25,13 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Likemodel.findAll", query = "SELECT l FROM Likemodel l")
     , @NamedQuery(name = "Likemodel.findByLikepost", query = "SELECT l FROM Likemodel l WHERE l.likepost = :likepost")
-    , @NamedQuery(name = "Likemodel.findByName", query = "SELECT l FROM Likemodel l WHERE l.name = :xyz")
+    , @NamedQuery(name = "Likemodel.findByName", query = "SELECT l FROM Likemodel l WHERE l.name = :name")
     , @NamedQuery(name = "Likemodel.findByLikeid", query = "SELECT l FROM Likemodel l WHERE l.likeid = :likeid")
     , @NamedQuery(name = "Likemodel.findById", query = "SELECT l FROM Likemodel l WHERE l.id = :id")
-    //, @NamedQuery(name = "Likemodel.findByNameAdvanced", query = "SELECT l FROM Likemodel l WHERE l.name like:name")
-    
     , @NamedQuery(name = "Likemodel.findByNameAdvanced", query = "SELECT l FROM Likemodel l WHERE LOWER(l.name) LIKE  CONCAT('%', LOWER(:name), '%')")
-    // :keyword% 
+    
 })
     //, @NamedQuery(name = "Likemodel.findByNameAdvanced", query = "SELECT l FROM Likemodel l WHERE
 public class Likemodel implements Serializable {
@@ -48,12 +46,19 @@ public class Likemodel implements Serializable {
     @Column(name = "ID")
     private Integer id;
 
-    public Likemodel() {
+    public Likemodel(){
+        
     }
 
     public Likemodel(Integer id) {
         this.id = id;
     }
+//    public Likemodel(Integer id, String name, Boolean likepost, Integer likeid) {
+//        this.id = id;
+//        this.name = name;
+//        this.likepost = likepost;
+//        this.likeid = likeid;
+//    }
 
     public Boolean getLikepost() {
         return likepost;
